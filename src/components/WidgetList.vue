@@ -160,6 +160,10 @@ function handleLinkToProfile(event: Event) {
   cursor: pointer;
   transition: border-color 0.3s ease;
 }
+.color-box.selected{
+  border-color: #b0b0b0;
+}
+
 /*border-color: #b0b0b0;*/
 .color-box:hover {
   opacity: 0.7;
