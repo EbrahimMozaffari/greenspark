@@ -12,7 +12,7 @@ const apiClient = axios.create({
 // Interceptor برای درخواست‌ها
 apiClient.interceptors.request.use(
   (config) => {
-    console.log('Request Interceptor:', config);
+    //console.log('Request Interceptor:', config);
     // می‌توانید توکن احراز هویت را اینجا اضافه کنید
     // config.headers.Authorization = `Bearer ${token}`;
     return config;
@@ -26,7 +26,7 @@ apiClient.interceptors.request.use(
 // Interceptor برای پاسخ‌ها
 apiClient.interceptors.response.use(
   (response) => {
-    console.log('Response Interceptor:', response);
+    //console.log('Response Interceptor:', response);
     return response.data; // فقط داده‌ها را برمی‌گرداند
   },
   (error) => {
