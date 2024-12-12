@@ -1,9 +1,9 @@
 <template>
   <div class="px-5 md:px-0">
-    <!-- <custom-input></custom-input> -->
+    <!-- Grid layout for widgets -->
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
       <div class="" v-for="widget in widgets" :key="widget.id">
-        <!-- بخش اول با پس‌زمینه خاکستری -->
+        <!-- section header -->
         <div
           :class="[
             'grid grid-cols-4 gap-1 p-3 rounded-md mb-4',
@@ -34,7 +34,7 @@
           </div>
         </div>
 
-        <!-- بخش‌های دیگر بدون پس‌زمینه -->
+        <!-- body sections -->
         <div class="grid grid-cols-4 gap-4 items-center mb-4">
           <div class="col-span-3">
             <div class="flex items-center text-custom-green">
@@ -69,7 +69,10 @@
             </div>
           </div>
           <div class="col-span-1 flex justify-end">
-            <custom-input :input-value="widget.id" @checked="handleLinkToProfile" />
+            <custom-input
+              :input-value="widget.id"
+              @checked="handleLinkToProfile"
+            />
           </div>
         </div>
         <div class="grid grid-cols-4 gap-4 items-center mb-4">
@@ -91,7 +94,6 @@
             </div>
           </div>
         </div>
-
         <div class="grid grid-cols-4 gap-4 items-center">
           <div class="col-span-3 text-[14px] text-custom-green font-medium">
             Activate badge
@@ -109,7 +111,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -120,121 +121,50 @@ import store from "../stores/index";
 import CustomInput from "./CustomInput.vue";
 import customIcon from "./icons/customIcon.vue";
 
+// Fetch widgets from the store when the component is mounted
 onMounted(async () => {
   await store.dispatch("fetchWidgets");
 });
 
+// Computed property to get widgets from the Vuex store
 const widgets = computed(() => {
   return store.getters["getWidgets"];
 });
 
-// Update widget color
+// Update the color of a specific widget
 function updateWidgetColorById(id: number, color: string) {
   store.dispatch("updateWidgetColor", { id, color });
 }
 
-// Toggle active status, ensuring only one widget remains active
+// Toggle the active state of a widget, ensuring only one widget is active
 function toggleActiveWidget(selectedWidget: Widget) {
   store.dispatch("toggleActiveWidget", selectedWidget.id);
 }
 
+// Handle linking to the profile
 function handleLinkToProfile(event: Event) {
   const target = event.target as HTMLInputElement;
-  const isChecked = target.checked;
-  const widgetId = target.value; // مقدار مرتبط با چک‌باکس
-  console.log("widgetId",widgetId,isChecked);
-  
+  const isChecked = target.checked; // Check if the checkbox is checked
+  const widgetId = target.value; // Get the widget ID
+
   store.dispatch("updateWidgetLink", { id: widgetId, isChecked });
 }
 </script>
 
 <style scoped>
-/* Main container styles */
-.widget-list {
-  max-width: 900px;
-  margin: 0 auto;
-  color: #1a1a1a;
-}
-
-.widget-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.widget-header {
-  color: white;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.header-content .logo img {
-  width: 50px;
-  height: 50px;
-}
-
-.product-title {
-  font-size: 18px;
-  margin: 0;
-}
-
-.product-detail {
-  font-size: 16px;
-  margin: 5px 0 0;
-}
-
-/* Widget body styles */
-.widget-body {
-  padding: 20px;
-  background-color: #fff;
-}
-
-
-/* Badge color options */
-.badge-color {
-  margin-bottom: 20px;
-}
-
-.color-options {
-  display: flex;
-  gap: 4px;
-  margin-top: 10px;
-}
-
+/* Style for color picker boxes */
 .color-box {
   width: 16px;
   height: 16px;
   border: 2px solid transparent;
-
   cursor: pointer;
   transition: border-color 0.3s ease;
 }
 /*border-color: #b0b0b0;*/
 .color-box:hover {
-  
   opacity: 0.7;
 }
-
-.color-box.selected {
-  border-color: #b0b0b0;
-}
-
-.toggle-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-}
-
+/* Style for toggle switch */
 .switch {
   position: relative;
   display: inline-block;
@@ -278,23 +208,16 @@ function handleLinkToProfile(event: Event) {
   border-radius: 50%;
   transition: 0.4s;
 }
-.slider:before:hover{
+.slider:hover::before {
   box-shadow: 0px 0px 1px 6px rgba(175, 198, 189, 0.5);
 }
 input:checked + .slider {
-  background-color: #3B755F;
-  outline: 1px solid #B0B0B0;
+  background-color: #3b755f;
+  outline: 1px solid #b0b0b0;
 }
 
 input:checked + .slider:before {
-  outline: 1px solid #3B755F;
+  outline: 1px solid #3b755f;
   transform: translateX(24px);
- 
-}
-
-.customRadius {
-  border-radius: 2px;
-  border-color: gray;
-  border: 2px solid #9ca3af;
 }
 </style>

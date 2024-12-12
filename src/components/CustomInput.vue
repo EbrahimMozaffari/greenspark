@@ -41,7 +41,7 @@ defineProps({
 });
 // Emits definition for edit events
 const emits = defineEmits(["checked"]);
-//emits("edit", task);
+
 const handlechange = (event: Event) => {
   emits("checked", event);
 };
@@ -55,7 +55,10 @@ const handlechange = (event: Event) => {
 .border-checkbox {
   border-color: #3b755f; /* Green border for checked state */
 }
+.customHover {
+  transition: 0.3s;
+}
 .customHover:hover {
-  box-shadow: 0px 0px 1px 10px rgba(175, 198, 189, 0.5);
+  box-shadow: 0px 0px 1px 8px rgba(175, 198, 189, 0.5);
 }
 </style>

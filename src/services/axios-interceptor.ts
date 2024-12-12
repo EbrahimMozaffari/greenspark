@@ -1,50 +1,62 @@
 import axios from 'axios';
 
-// ایجاد نمونه Axios
+// Create an Axios instance
 const apiClient = axios.create({
-  baseURL: 'https://b795b019-1f84-41f4-93a3-a702d686c75a.mock.pstmn.io',
-  timeout: 5000,
+  baseURL: 'https://b795b019-1f84-41f4-93a3-a702d686c75a.mock.pstmn.io', // Base URL for the API
+  timeout: 5000, // Request timeout limit in milliseconds
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json', // Default content type for requests
   },
 });
 
-// Interceptor برای درخواست‌ها
+// Request interceptor
 apiClient.interceptors.request.use(
   (config) => {
-    //console.log('Request Interceptor:', config);
-    // می‌توانید توکن احراز هویت را اینجا اضافه کنید
+    // Modify the request before it is sent
+    // Example: Add authentication token to the headers
     // config.headers.Authorization = `Bearer ${token}`;
-    return config;
+
+    // Uncomment the line below to log the request configuration
+    // console.log('Request Interceptor:', config);
+    return config; // Return the modified config
   },
   (error) => {
+    // Log request errors
     console.error('Request Error:', error);
-    return Promise.reject(error);
+    return Promise.reject(error); // Reject the promise with the error
   }
 );
 
-// Interceptor برای پاسخ‌ها
+// Response interceptor
 apiClient.interceptors.response.use(
   (response) => {
-    //console.log('Response Interceptor:', response);
-    return response.data; // فقط داده‌ها را برمی‌گرداند
+    // Handle the response data
+    // Uncomment the line below to log the response
+    // console.log('Response Interceptor:', response);
+    return response.data; // Return only the response data
   },
   (error) => {
+    // Log response errors
     console.error('Response Error:', error);
+
+    // Check for specific HTTP status codes
     if (error.response) {
       const { status } = error.response;
+
       if (status === 401) {
+        // Handle unauthorized error
         console.error('Unauthorized! Redirecting to login...');
-        // می‌توانید کاربر را به صفحه لاگین هدایت کنید
+        // Optionally, redirect the user to the login page
       } else if (status === 500) {
+        // Handle internal server error
         console.error('Server Error! Please try again later.');
       } else if (status === 404) {
+        // Handle not found error
         console.error('404 Not Found.');
       }
     }
-    return Promise.reject(error);
+    return Promise.reject(error); // Reject the promise with the error
   }
 );
 
 export default apiClient;
-
