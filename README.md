@@ -59,7 +59,7 @@ A Vue 3 application designed for managing widgets with customizable properties s
 ```bash
         src/
         ├── components/        # Reusable components
-        ├── store/             # Pinia store for managing global state
+        ├── store/             # Vuex store for managing global state
         ├── router/            # Routing
         ├── pages/             # Pages component
         ├── types/             # Define your types here
